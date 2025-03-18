@@ -1,23 +1,27 @@
 package com.wannabeWhatsapp.demo.service;
 
 import com.wannabeWhatsapp.demo.model.Subscription;
+import com.wannabeWhatsapp.demo.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
 public class SubscriptionService {
-    private final List<Subscription> subscriptions = new ArrayList<>();
+    private final SubscriptionRepository subscriptionRepository;
+
+    public SubscriptionService(SubscriptionRepository subscriptionRepository) {
+        this.subscriptionRepository = subscriptionRepository;
+    }
 
     public List<Subscription> getSubscriptions() {
-        return new ArrayList<>(subscriptions);
+        return subscriptionRepository.findAll();
     }
 
-    public Subscription subscribe(Subscription subscription) {
-        subscriptions.add(subscription);
-        return subscription;
+    public Subscription createSubscription(Subscription subscription) {
+        return subscriptionRepository.save(subscription);
     }
 
-    public void unsubscribe(String userId, String influencerId) {
-        subscriptions.removeIf(sub -> sub.getUserId().equals(userId) && sub.getInfluencerId().equals(influencerId));
+    public void deleteSubscription(Long id) {
+        subscriptionRepository.deleteById(id);
     }
 }

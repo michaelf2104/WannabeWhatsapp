@@ -16,12 +16,18 @@ public class NewsfeedController {
     }
 
     @GetMapping
-    public List<NewsfeedPost> getAllPosts() {
-        return newsfeedService.getAllPosts();
+    public List<NewsfeedPost> getAllNewsfeedPosts() {
+        return newsfeedService.getAllNewsfeedPosts();
     }
 
     @PostMapping
     public NewsfeedPost createPost(@RequestBody NewsfeedPost post) {
         return newsfeedService.createPost(post);
     }
+
+    @DeleteMapping("/{id}")
+    public void deletePost(@PathVariable Long id) {
+        newsfeedService.deletePost(id);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.wannabeWhatsapp.demo.service;
 
 import com.wannabeWhatsapp.demo.model.Message;
+import com.wannabeWhatsapp.demo.repository.MessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -8,21 +9,21 @@ import java.util.List;
 
 @Service
 public class MessageService {
-    private final List<Message> messages = new ArrayList<>();
+    private final MessageRepository messageRepository;
 
-    public List<Message> getMessagesBetweenUsers(String user1, String user2) {
-        List<Message> conversation = new ArrayList<>();
-        for (Message message : messages) {
-            if ((message.getSenderId().equals(user1) && message.getReceiverId().equals(user2)) ||
-                    (message.getSenderId().equals(user2) && message.getReceiverId().equals(user1))) {
-                conversation.add(message);
-            }
-        }
-        return conversation;
+    public MessageService(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
+
+    public List<Message> getMessagesBetweenUsers(Long senderId, Long receiverId) {
+        return messageRepository.findAll();
     }
 
     public Message sendMessage(Message message) {
-        messages.add(message);
-        return message;
+        return messageRepository.save(message);
+    }
+
+    public void deleteMessage(Long id) {
+        messageRepository.deleteById(id);
     }
 }

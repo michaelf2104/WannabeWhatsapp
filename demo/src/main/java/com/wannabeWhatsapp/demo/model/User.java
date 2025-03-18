@@ -1,42 +1,69 @@
 package com.wannabeWhatsapp.demo.model;
 
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private String id;
-    private String username;
-    private boolean isInfluencer;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
     private String phoneNumber;
 
-    public User(String username, boolean isInfluencer, String phoneNumber) {
-        this.id = UUID.randomUUID().toString();
-        this.username = username;
-        this.isInfluencer = isInfluencer;
-        this.phoneNumber = phoneNumber;
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String password;
+
+    public User() {
+
     }
 
-    public String getId() {
+    public User(String firstName, String lastName, String phoneNumber, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.firstName = firstName;
     }
 
-    public boolean isInfluencer() {
-        return isInfluencer;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setInfluencer(boolean influencer) {
-        isInfluencer = influencer;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhoneNumber() {

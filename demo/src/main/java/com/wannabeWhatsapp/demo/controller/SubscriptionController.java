@@ -21,12 +21,12 @@ public class SubscriptionController {
     }
 
     @PostMapping
-    public Subscription subscribe(@RequestBody Subscription subscription) {
-        return subscriptionService.subscribe(subscription);
+    public Subscription createSubscription(@RequestBody Subscription subscription) {
+        return subscriptionService.createSubscription(subscription);
     }
 
-    @DeleteMapping("/{userId}/{influencerId}")
-    public void unsubscribe(@PathVariable String userId, @PathVariable String influencerId) {
-        subscriptionService.unsubscribe(userId, influencerId);
+    @DeleteMapping("/{id}")
+    public void deleteSubscription(@PathVariable long id) {
+        subscriptionService.deleteSubscription(id);
     }
 }

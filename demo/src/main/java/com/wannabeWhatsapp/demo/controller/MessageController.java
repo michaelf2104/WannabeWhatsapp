@@ -16,13 +16,18 @@ public class MessageController {
     }
 
     @GetMapping("/{user1}/{user2}")
-    public List<Message> getMessages(@PathVariable String user1, @PathVariable String user2) {
-        return messageService.getMessagesBetweenUsers(user1, user2);
+    public List<Message> getMessages(@PathVariable Long senderId, @PathVariable Long receiverId) {
+        return messageService.getMessagesBetweenUsers(senderId, receiverId);
     }
 
     @PostMapping
     public Message sendMessage(@RequestBody Message message) {
         return messageService.sendMessage(message);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteMessage(@PathVariable Long id) {
+        messageService.deleteMessage(id);
     }
 
 }

@@ -1,19 +1,27 @@
 package com.wannabeWhatsapp.demo.service;
 
 import com.wannabeWhatsapp.demo.model.NewsfeedPost;
+import com.wannabeWhatsapp.demo.repository.NewsfeedPostRepository;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
 public class NewsfeedService {
-    private final List<NewsfeedPost> posts = new ArrayList<>();
+    private final NewsfeedPostRepository newsfeedPostRepository;
 
-    public List<NewsfeedPost> getAllPosts() {
-        return new ArrayList<>(posts);
+    public NewsfeedService(NewsfeedPostRepository newsfeedPostRepository) {
+        this.newsfeedPostRepository = newsfeedPostRepository;
+    }
+
+    public List<NewsfeedPost> getAllNewsfeedPosts() {
+        return newsfeedPostRepository.findAll();
     }
 
     public NewsfeedPost createPost(NewsfeedPost post) {
-        posts.add(post);
-        return post;
+        return newsfeedPostRepository.save(post);
+    }
+
+    public void deletePost(Long id) {
+        newsfeedPostRepository.deleteById(id);
     }
 }
