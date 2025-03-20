@@ -17,7 +17,7 @@ function Login() {
             return;
         }
         try {
-            const response = await fetch("http://localhost:8080/api/auth/request-code", {
+            const response = await fetch("http://localhost:9090/api/auth/request-code", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({phoneNumber}),
@@ -39,7 +39,7 @@ function Login() {
 
     async function handleResendCode() {
         try {
-            const response = await fetch("http://localhost:8080/api/auth/resend-code", {
+            const response = await fetch("http://localhost:9090/api/auth/resend-code", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({phoneNumber}),
@@ -63,7 +63,7 @@ function Login() {
             return;
         }
         try {
-            const response = await fetch("http://localhost:8080/api/auth/verify-code", {
+            const response = await fetch("http://localhost:9090/api/auth/verify-code", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({phoneNumber, code}),

@@ -2,11 +2,14 @@ package com.wannabeWhatsapp.demo.service;
 
 import com.wannabeWhatsapp.demo.model.User;
 import com.wannabeWhatsapp.demo.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
 public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
@@ -14,18 +17,44 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        try {
+            return userRepository.findAll();
+        } catch (Exception e) {
+            logger.error("Error retrieving all users from database.", e);
+            return List.of();
+        }
     }
 
     public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+        try {
+            return userRepository.findById(id);
+        } catch (Exception e) {
+            logger.error("Error retrieving user with ID: {}", id, e);
+            return Optional.empty();
+        }
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public Optional<User> createUser(User user) {
+        try {
+            return Optional.of(userRepository.save(user));
+        } catch (Exception e) {
+            logger.error("Error creating user with ID: {}", user.getId(), e);
+            return Optional.empty();
+        }
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public boolean deleteUser(Long id) {
+        try {
+            if (!userRepository.existsById(id)) {
+                logger.warn("Deletion failed: User with ID {} does not exist.", id);
+                return false;
+            }
+            userRepository.deleteById(id);
+            logger.info("User with ID {} was successfully deleted.", id);
+            return true;
+        } catch (Exception e) {
+            logger.error("Error deleting user with ID: {}", id, e);
+            return false;
+        }
     }
 }
